@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<constant name="struts.action.extension" value=",action" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.configuration.xml.reload" value="true" /> 
+	<!-- 使用Spring管理Struts -->
+	<constant name="struts.objectFactory" value="spring" />
+	
+	<!-- 1、定义一个package，继承struts-default -->
+	<package name="ssh"  namespace="/test" extends="struts-default">
+	    <!-- 2、定义一个Action（控制器）	
+	    	name为控制器映射名		class为控制器的项目全路径	method指定访问的方法（默认为execute）  -->
+		<action name="student" class="com.steven.ssh.controller.StudentAction" method="execute">
+		    <!-- result指向页面，控制器返回的值需与result的name对应，才能成功跳转页面		name默认为success -->
+			<result >/teacher/success.jsp</result>
+		</action>
+		
+		<action name="teacher" class="teacherAction" method="insert">
+			<!-- <result name="list">/WEB-INF/teacher/teacher_list.jsp</result>
+			<result name="toAdd">/WEB-INF/teacher/teacher_add.jsp</result> -->
+		</action>
+
+	</package>
+
+</struts>

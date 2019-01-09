@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="                                              
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.3.xsd    
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-4.3.xsd  
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-4.3.xsd ">
+
+    <!-- 读入数据库配置 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+    
+    <!-- 声明一个 HibernateTemplate Bean -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate" >
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+    
+	<!-- 配置C3p0的数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="user" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+		<property name="jdbcUrl" value="${url}"></property>
+		<property name="driverClass" value="${driverClass}"></property>
+		<!-- 每300秒检查所有连接池中的空闲连接 --> 
+		<property name="idleConnectionTestPeriod" value="300"></property> 
+		<!-- 最大空闲时间,900秒内未使用则连接被丢弃。若为0则永不丢弃 --> 
+		<property name="maxIdleTime" value="900"></property> 
+		<!-- 最大连接数 --> 
+		<property name="maxPoolSize" value="1000"></property>
+	</bean>
+	
+	<!-- 配置sessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<!--配置方言 -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<!--激活查询日志功能 -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!--优雅地输出Sql -->
+				<prop key="hibernate.format_sql">true</prop>
+				<!--添加一条解释型标注 -->
+				<prop key="hibernate.use_sql_comments">false</prop>
+
+				<!--配置如何根据java模型生成数据库表结构,常用create create-drop、 update,validate -->
+				<!-- create 用一次 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- 绑定 session对象到 线程的上下文 -->
+				<!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
+			</props>
+
+		</property>
+		<!-- 配置Hibernate到哪里 读取 映射 -->
+		<property name="mappingLocations">
+			<list>
+				<value>classpath:com/steven/ssh/dto/Teacher.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 事务管理器 hibernate5.HibernateTransactionManager -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	
+	<bean id="teacher" class="teacher">
+	    <property name="service" ref="teacherService"></property>
+	</bean>
+	
+	<bean id="teacherService" class="com.steven.ssh.service.TeacherService">
+	    <property name="teacherDao" ref="teacherDao"></property>
+	</bean>
+	<bean id="teacherDao" class="com.steven.ssh.dao.TeacherDao">
+	    <property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+    
+</beans>
