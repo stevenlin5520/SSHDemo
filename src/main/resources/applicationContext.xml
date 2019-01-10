@@ -23,10 +23,10 @@
     
 	<!-- 配置C3p0的数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="user" value="${username}"></property>
-		<property name="password" value="${password}"></property>
-		<property name="jdbcUrl" value="${url}"></property>
-		<property name="driverClass" value="${driverClass}"></property>
+		<property name="user" value="${server.username}"></property>
+		<property name="password" value="${server.password}"></property>
+		<property name="jdbcUrl" value="${server.url}"></property>
+		<property name="driverClass" value="${server.driverClass}"></property>
 		<!-- 每300秒检查所有连接池中的空闲连接 --> 
 		<property name="idleConnectionTestPeriod" value="300"></property> 
 		<!-- 最大空闲时间,900秒内未使用则连接被丢弃。若为0则永不丢弃 --> 
@@ -74,7 +74,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	
-	<bean id="teacher" class="teacher">
+	<bean id="teacherAction" class="com.steven.ssh.controller.TeacherAction">
 	    <property name="service" ref="teacherService"></property>
 	</bean>
 	
