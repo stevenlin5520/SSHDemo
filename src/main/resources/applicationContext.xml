@@ -74,7 +74,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	
-	<bean id="teacherAction" class="com.steven.ssh.controller.TeacherAction">
+	<!-- <bean id="teacherAction" class="com.steven.ssh.controller.TeacherAction">
 	    <property name="service" ref="teacherService"></property>
 	</bean>
 	
@@ -83,6 +83,6 @@
 	</bean>
 	<bean id="teacherDao" class="com.steven.ssh.dao.TeacherDao">
 	    <property name="hibernateTemplate" ref="hibernateTemplate"></property>
-	</bean>
+	</bean> -->
     
 </beans>

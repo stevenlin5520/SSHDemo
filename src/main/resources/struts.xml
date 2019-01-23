@@ -15,12 +15,14 @@
 	<package name="ssh"  namespace="/test" extends="struts-default">
 	    <!-- 2、定义一个Action（控制器）	
 	    	name为控制器映射名		class为控制器的项目全路径	method指定访问的方法（默认为execute）  -->
+    	<!-- http://127.0.0.1:8080/SSHDemo/test/ssh/student -->
 		<action name="student" class="com.steven.ssh.controller.StudentAction" method="execute">
 		    <!-- result指向页面，控制器返回的值需与result的name对应，才能成功跳转页面		name默认为success -->
 			<result >/teacher/success.jsp</result>
 		</action>
 		
-		<action name="teacher" class="teacherAction" method="insert">
+		<!-- http://127.0.0.1:8080/SSHDemo/test/ssh/teacher -->
+		<action name="teacher" class="com.steven.ssh.controller.TeacherAction" method="insert">
 			<!-- <result name="list">/WEB-INF/teacher/teacher_list.jsp</result>
 			<result name="toAdd">/WEB-INF/teacher/teacher_add.jsp</result> -->
 		</action>

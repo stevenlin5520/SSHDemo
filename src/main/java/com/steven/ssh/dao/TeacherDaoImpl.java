@@ -2,19 +2,21 @@ package com.steven.ssh.dao;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
 public class TeacherDaoImpl implements TeacherDao{
 
+	@Autowired
 	private HibernateTemplate hibernateTemplate;
 	
-	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
-		this.hibernateTemplate = hibernateTemplate;
-	}
-
-	public HibernateTemplate getHibernateTemplate() {
-		return hibernateTemplate;
-	}
+//	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+//		this.hibernateTemplate = hibernateTemplate;
+//	}
+//
+//	public HibernateTemplate getHibernateTemplate() {
+//		return hibernateTemplate;
+//	}
 
 	@Override
 	public int insert() {
